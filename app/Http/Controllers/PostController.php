@@ -55,13 +55,13 @@ class PostController extends Controller
         if (!$this->isOwner($post->author_id)) {
             return response()->json([
                 'status' => 500,
-                'message' => 'You are not the owner of the post',
+                'message' => 'unauthorized activity',
             ]);
         }
 
         $post->update([
             'category_id' => $request->category_id,
-            'author_id' => auth()->user()->id,
+            'author_id' => $post->author_id,
             'title' => $request->title,
             'slug' => $post->slug,
             'content' => $request->description,
@@ -88,7 +88,7 @@ class PostController extends Controller
         if (!$this->isOwner($post->author_id)) {
             return response()->json([
                 'status' => 500,
-                'message' => 'You are not the owner of the post'
+                'message' => 'unauthorized activity'
             ]);
         }
 

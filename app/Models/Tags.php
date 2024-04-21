@@ -9,4 +9,5 @@ class Tags extends Model
 {
     use HasFactory;
     protected $fillable= [ 'tags','creator_id'];
+
 }

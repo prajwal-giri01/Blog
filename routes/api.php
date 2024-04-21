@@ -44,9 +44,9 @@ Route::group(['middleware'=> 'auth:sanctum'],function(){
     Route::DELETE('post/{id}/delete',[PostController::class, 'destroy'])->name('post.destroy');
 
     //comment
-    Route::post('post/create/{post_id}',[CommentController::class, 'store'])->name('post.create');
-    Route::put('post/{id}/edit',[CommentController::class, 'update'])->name('post.update');
-    Route::DELETE('post/{id}/delete',[CommentController::class, 'destroy'])->name('post.destroy');
+    Route::post('comment/create/{post_id}',[CommentController::class, 'store'])->name('post.create');
+    Route::put('comment/{id}/edit/{post_id}',[CommentController::class, 'update'])->name('post.update');
+    Route::DELETE('comment/{id}/delete/{post_id}',[CommentController::class, 'destroy'])->name('post.destroy');
 
 
 });
