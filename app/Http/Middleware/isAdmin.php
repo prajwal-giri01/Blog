@@ -15,12 +15,13 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->hasRole('admin')){
-            return $next($request);
+        if(!auth()->user()->hasRole('admin')){
+            return \response()->json([
+                'status' => 500,
+                'message' => 'unauthorized activity'
+            ]);
         }
-        return \response()->json([
-            'status' => 500,
-            'message' => 'unauthorized activity'
-        ]);
+
+        return $next($request);
     }
 }

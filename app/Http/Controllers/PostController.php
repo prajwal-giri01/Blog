@@ -8,6 +8,24 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    public function index()
+    {
+        $posts = Post::with(['comments','taggables'])->get();
+
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'No Post Found',
+                'data' => []
+            ]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'fetching posts',
+            'data' => $posts
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -81,7 +99,7 @@ class PostController extends Controller
         if (!$post) {
             return response()->json([
                 'status' => 500,
-                'message' => 'Post not found'
+                'message' => 'Some error has occurred'
             ]);
         }
 

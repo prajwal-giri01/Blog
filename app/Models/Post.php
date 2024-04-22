@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'category_id',
         'author_id',
         'title',
@@ -17,20 +17,25 @@ class Post extends Model
         'content'
     ];
 
-    public function category()
+    public function taggables()
     {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->morphMany(Taggable::class, 'taggable');
     }
 
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
 
 
 }

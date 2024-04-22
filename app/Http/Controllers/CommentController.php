@@ -9,6 +9,33 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    public function index($post_id)
+    {
+        $post = Post::find($post_id);
+        if (!$post) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Some error has occurred'
+            ]);
+        }
+        $comments = Comment::where('commentable_id', $post_id)->get();
+
+        if ($comments->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'No comments available',
+                'data' => []
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Fetching comments',
+                'data' => $comments
+            ]);
+        }
+
+    }
+
     public function store(Request $request, $post_id)
     {
         $request->validate([
@@ -23,7 +50,7 @@ class CommentController extends Controller
         }
         $comment = Comment::create([
             'commentable_id' => $post_id,
-            'commentable_type' => 'App\Post',
+            'commentable_type' => 'App\Models\Post',
             'creator_id' => auth()->user()->id,
             'comment' => $request->comment
         ]);
@@ -56,7 +83,7 @@ class CommentController extends Controller
 
         $comment->update([
             'commentable_id' => $post_id,
-            'commentable_type' => 'App\Post',
+            'commentable_type' => 'App\Models\Post',
             'creator_id' => $comment->creator_id,
             'comment' => $request->comment
         ]);
