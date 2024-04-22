@@ -1,0 +1,57 @@
+
+### Application Integration Guide for Spatie Laravel Permission Package
+
+This document provides step-by-step instructions to integrate the Spatie Laravel Permission package
+
+#### Prerequisites:
+- Composer installed on your system.
+- Laravel application set up and running.
+
+#### Integration Steps:
+
+1. **Check Package Availability**:
+
+   Open your terminal and execute the following command to check if the Spatie Laravel Permission package is already installed:
+
+
+   composer show spatie/laravel-permission
+
+
+   If the package is not installed, proceed to the next step.
+
+2. **Install the Package**:
+
+   Execute the following command in your terminal to download and install the Spatie Laravel Permission package:
+
+
+   composer require spatie/laravel-permission
+
+
+3. **Publish Configuration**:
+
+   After installing the package, run the following command to publish the package configuration:
+
+
+   php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+
+   This command will copy the package configuration file to your application's `config` directory.
+
+4. **Migration**:
+
+   The Spatie Laravel Permission package utilizes database migrations to set up the necessary tables. Run the migration command to create the required tables:
+
+
+   php artisan migrate
+
+
+5. **Usage**:
+
+   You can now utilize the functionality provided by the Spatie Laravel Permission package within your application. Refer to the package documentation for detailed usage instructions.
+
+#### Additional Information:
+
+- **Package Documentation**: For further details on utilizing the features offered by the Spatie Laravel Permission package, refer to the official documentation available at [link to documentation].
+
+---
+
