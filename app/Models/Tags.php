@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Tags extends Model
 {
     use HasFactory;
-    protected $fillable= [ 'tags','creator_id'];
 
+    protected $fillable = ['tags', 'creator_id'];
+
+    public function taggable()
+    {
+        return $this->hasMany(Taggable::class, 'tag_id');
+    }
 }

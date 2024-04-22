@@ -17,6 +17,7 @@ class Post extends Model
         'content'
     ];
 
+
     public function taggables()
     {
         return $this->morphMany(Taggable::class, 'taggable');

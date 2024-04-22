@@ -18,7 +18,7 @@ class CommentController extends Controller
                 'message' => 'Some error has occurred'
             ]);
         }
-        $comments = Comment::where('commentable_id', $post_id)->get();
+        $comments = Comment::where('commentable_id', $post_id)->paginate(10);
 
         if ($comments->isEmpty()) {
             return response()->json([

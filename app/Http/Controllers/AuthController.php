@@ -22,14 +22,18 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'role'=>'author',
             'password' => Hash::make($request->password),
         ]);
+
+        $user->assignRole('author');
+        $token = $user->createToken('myapptoken')->plainTextToken;
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
             'status' => 200,
             'message' => 'success',
             'data' => $user,
+            'token' => $token
 
         ]);
     }
@@ -40,20 +44,39 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
         $user = User::where('email', $request->email)->first();
+
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+
+        // Check if the user's email is verified
+        if(!$user->hasVerifiedEmail()){
+            return response()->json([
+                'status' => 401,
+                'message' => 'Email not verified',
+            ], 401);
+        }
+
+        // Delete existing tokens
         $user->tokens()->delete();
+
+        // Create new token
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
         return response()->json([
             'status' => 200,
-            'message' => 'success',
-            'data' => ['user' => $user,
-                'token' => $user->createToken('myapptoken')->plainTextToken],
+            'message' => 'Success',
+            'data' => [
+                'user' => $user,
+                'token' => $token
+            ],
         ]);
     }
+
     public function logout(Request $request)
     {
         Auth::guard('sanctum')->user()->tokens()->delete();

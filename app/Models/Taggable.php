@@ -15,6 +15,11 @@ class Taggable extends Model
         'taggable_type'
     ];
 
+    public function tags()
+    {
+        return $this->belongsTo(Tags::class, 'tag_id');
+    }
+
     public function taggable()
     {
         return $this->morphTo();

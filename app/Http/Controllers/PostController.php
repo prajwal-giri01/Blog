@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['comments','taggables'])->get();
+        $posts = Post::with(['comments','taggables'])->paginate(10);
 
         if ($posts->isEmpty()) {
             return response()->json([

@@ -56,7 +56,7 @@ class TaggableController extends Controller
         $taggable->update([
             'tag_id' => $request->tag_id,
             'taggable_id' => $post_id,
-            'taggable_type' => 'App\Models\Post'
+            'taggable_type' => 'App\Models\\Post'
         ]);
         return response()->json([
            'status'=>200,
